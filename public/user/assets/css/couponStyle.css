@@ -1,0 +1,90 @@
+.tab-pane {
+  margin-top: 20px;
+}
+
+.coupon-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+}
+
+.coupon_card {
+  position: relative;
+  background-color: #dbb96b;
+  padding: 15px;
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.coupon-image1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .1;
+}
+
+.coupon-image2 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: .1;
+}
+
+.cross-bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #ff9d00;
+  left: 0;
+  top: 0;
+  opacity: 0.4;
+}
+
+.coupon_content {
+  position: relative;
+  z-index: 10;
+}
+
+.off, .coupon_class {
+  font-size: 14px;
+}
+
+.off, .coupon_class {
+  margin-right: 8px;
+}
+
+.plus {
+  font-size: 16px;
+}
+
+.code {
+  bottom: 10px;
+  left: 50%;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background-color: #fff;
+  color: red;
+  font-size: 10px;
+}
+
+.coupon-des {
+  font-size: 14px;
+}
+
+.coupon_h1 {
+  font-size: 28px;
+}
+
+.coupon_h2{
+  font-size: 11px;
+  color: rgb(109, 105, 105);
+}
+

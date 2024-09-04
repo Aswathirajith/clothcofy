@@ -1,0 +1,86 @@
+<%-include("../layout/user/header")-%>
+
+<body class="container-fluid bg-body-tertiary d-block box">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
+        <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+          <form action="/verifyotp" method="post">
+            <div class="card-body p-5 text-center">
+              <h4>Verify</h4>
+              <p>Your code was sent to you via email</p><br>
+              
+              <div class="d-flex justify-content-center message">
+                <% 
+                if(typeof message !== 'undefined')
+                {
+               %> 
+                <p><%= message %></p>
+               <%
+                }
+                %>
+              </div>
+              <div class="otp-field mb-4">
+              <input type="number" name="otp1" />
+              <input type="number" name="otp2" disabled />
+              <input type="number" name="otp3" disabled />
+              <input type="number" name="otp4" disabled />
+              <input type="number" name="otp5" disabled />
+              <input type="number" name="otp6" disabled />
+            </div>
+
+            <button class="btn btn-primary mb-3" type="submit">Verify</button>
+
+            <!-- Display the counter -->
+            <div id="counterSection">
+              <p class="resend text-muted mb-0">
+                Request OTP in: <span id="counter">01:00</span>
+              </p>
+            </div>
+
+            <!-- Request again link -->
+            <p id="resendLink" style="display: none;"><br>
+            Didn't receive code? <a href="/resendOtp">Request again</a>
+            </p>
+
+          </div>
+        </form>
+        </div>
+      </div>
+   
+
+
+
+
+<!-- Script JS -->
+<script src="user/assets/js/script.js"></script>
+<script>
+  
+  function updateCounter() {
+    
+        var counter = 60; 
+        var counterElement = document.getElementById('counter');
+
+        var interval = setInterval(function() {
+            counter--;
+            if (counter <= 0) {
+                clearInterval(interval);
+                
+                document.getElementById('counterSection').style.display = 'none';
+                
+                document.getElementById('resendLink').style.display = 'inline';
+            } else {
+
+                var minutes = Math.floor(counter / 60);
+                var seconds = counter % 60;
+                counterElement.innerHTML = ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+                sessionStorage.setItem('otpCounter', counter); 
+
+            }
+        }, 1000);
+    }
+
+    window.onload = () => updateCounter();
+    
+</script>
+
+<%-include("../layout/user/footer")-%>

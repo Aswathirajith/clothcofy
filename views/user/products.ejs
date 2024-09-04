@@ -1,0 +1,688 @@
+<%-include("../layout/user/header")-%>
+
+
+<div class="page-wrapper">
+    <header class="header header-6">
+        <div class="header-top">
+            <div class="container pt-1">
+                <div class="header-right">
+                    <ul class="top-menu top-link-menu">
+                        <li>
+                            <ul>
+                                <li><a href="/userLogout"><i class="icon-user"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- End .top-menu -->
+                </div><!-- End .header-right -->
+            </div>
+        </div>
+
+        <div class="header-middle">
+            <div class="container">
+                <div class="header-left">
+                    <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                        <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                        <form action="#" method="get">
+                            <div class="header-search-wrapper search-wrapper-wide">
+                                <label for="q" class="sr-only">Search</label>
+                                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                <input type="search" class="form-control" name="q" id="q"
+                                    placeholder="Search product ..." required>
+                            </div><!-- End .header-search-wrapper -->
+                        </form>
+                    </div><!-- End .header-search -->
+                </div>
+                <div class="header-center">
+                    <a href="userHome" class="logo">
+                        <h3 class="text-center font-weight-bolder text-uppercase">CLOTHI<span style="color: #EDAA38;">FY</span></h3>
+                    </a>
+                </div><!-- End .header-left -->
+
+                <div class="header-right">
+                    <a href="wishlist" class="wishlist-link">
+                        <i class="icon-heart-o"></i>
+                        <span class="wishlist-txt">My Wishlist</span>
+                    </a>
+                    <div class="dropdown cart-dropdown">
+                        <a href="cart" class="dropdown-toggle" role="button" aria-haspopup="true"
+                            aria-expanded="false" data-display="static">
+                            <i class="icon-shopping-cart"></i>
+                        </a>
+                    </div><!-- End .cart-dropdown -->
+                </div>
+            </div><!-- End .container -->
+        </div><!-- End .header-middle -->
+
+        <div class="header-bottom sticky-header">
+            <div class="container">
+                <div class="header-left">
+                    <nav class="main-nav">
+                        <ul class="menu sf-arrows">
+                            <li class="megamenu-container active">
+                                <a href="userHome">Home</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li><!-- start of pages -->
+                                <a href="products" class="sf">Products</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li><!-- start of pages -->
+                                <a href="contactUs" class="sf">Contact</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li>
+                                <a href="#" class="sf">About Us</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li>
+                                <a href="myAccount" class="sf">My Account</a>
+                            </li>
+                        </ul><!-- End .menu -->
+                    </nav><!-- End .main-nav -->
+
+                    <button class="mobile-menu-toggler">
+                        <span class="sr-only">Toggle mobile menu</span>
+                        <i class="icon-bars"></i>
+                    </button>
+                </div><!-- End .header-left -->
+            </div><!-- End .container -->
+        </div><!-- End .header-bottom -->
+    </header><!-- End .header -->
+
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('/user/assets/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">All Products Here<span>Shop</span></h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav breadcrumb-with-filter">
+                <div class="container">
+                	<a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="userHome">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+
+        <div class="page-content">
+            <div class="categories-page">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="toolbox toolbox-right">
+                            <div class="toolbox-left">
+                                <div class="toolbox-info">
+                                    Showing <span><%= productsData.length*currentPage %> of <%= productsData.length*totalPages %></span> Products
+                                </div><!-- End .toolbox-info -->
+                            </div><!-- End .toolbox-left -->
+
+                            <div class="toolbox-right">
+                                <div class="toolbox-sort">
+                                    <label for="sortby">Sort by:</label>
+                                    <div class="select-custom">
+                                        <select name="sortby" id="sortby" class="form-control">
+                                            <option value="popularity" selected="selected">Most Popular</option>
+                                            <option value="rating">Most Rated</option>
+                                            <option value="priceLowToHigh">Price: low to high</option>
+                                            <option value="priceHighToLow">Price : high to low</option>
+                                            <option value="date">Featured</option>
+                                            <option value="newArrivals">New arrivals</option>
+                                            <option value="nameAZ">aA - zZ</option>
+                                            <option value="nameZA">zZ - aA </option>
+                                        </select>
+                                    </div>
+                                </div><!-- End .toolbox-sort -->
+                            </div><!-- End .toolbox-right -->
+                        </div><!-- End .toolbox -->
+
+                        <div class="products mb-3">
+                            <div class="row justify-content-center">
+                                <% productsData.forEach(product=> { %>
+                                    <% if(product.is_listed===true && product.prdctQuantity > 0){%>
+                                        <div class="col-6 col-md-4 col-lg-4">
+
+                                            <div class="product product-7 text-center">
+                                                <figure class="product-media">
+                                                    <a href="productDetails?productId=<%=product._id%>">
+                                                        <img src="/processed_images/<%= product.prdctImage[0] %>"
+                                                            alt="Product image" class="product-image">
+                                                    </a>
+                                                    <% if (product.offer && product.offer.status === true && product.offer.validity >= Date.now()) { %>
+                                                        <span class="product-label label-sale"><%= product.offer.offerPercentage %>% OFF</span>
+                                                    <% } %>
+
+                            
+                                                    <div class="product-action-vertical">
+                                                        <a href="#"
+                                                            class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('<%= product._id %>')"><span>add
+                                                                to wishlist</span></a>
+                                                    </div><!-- End .product-action-vertical -->
+
+                                                    <div class="product-action">
+
+                                                        <a href="#" class="btn-product btn-cart" onclick="addToCart('<%= product._id %>')"><span>add to cart</span></a>
+
+                                                    </div><!-- End .product-action -->
+
+                                                </figure><!-- End .product-media -->
+
+                                                <div class="product-body">
+                                                    <h3 class="product-title"><a href="products">
+                                                            <%= product.prdctName %>
+                                                        </a></h3><!-- End .product-title -->
+                                                    <div class="product-price">
+
+                                                        <% if (product.offer && product.offer.status === true  && product.offer.validity >= Date.now()) { %>
+                                                            <h5 class="new-price">₹<%= product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice)/100 %></h5>
+                                                            <p class="old-price"><s>₹<%= product.prdctPrice %></s></p>
+                                                        <% } else { %>
+                                                            <p>₹<%= product.prdctPrice %></p>
+                                                        <% } %>
+
+                                                    </div><!-- End .product-price -->
+                                                    <div>
+                                                        <% if(product.prdctQuantity==0){ %>
+                                                            <span>Out Of Stock</span>
+                                                        <% } else { %>
+                                                        <span>Stocks left :<%= product.prdctQuantity %></span>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="ratings-container">
+                                                        <div class="ratings">
+                                                            <div class="ratings-val" style="width: 20%;"></div>
+                                                            <!-- End .ratings-val -->
+                                                        </div><!-- End .ratings -->
+                                                        <span class="ratings-text">( 2 Reviews )</span>
+                                                    </div><!-- End .rating-container -->
+
+                                                </div><!-- End .product-body -->
+                                            </div><!-- End .product -->
+
+                                        </div><!-- End .col-sm-6 col-lg-4 -->
+                                    <%} %>
+                                <% }) %>
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+            <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
+            <aside class="sidebar-shop sidebar-filter sidebar-filter-banner">
+                <div class="sidebar-filter-wrapper">
+                    <div class="widget widget-clean">
+                        <label><i class="icon-close"></i>Filters</label>
+                        <a href="#" class="sidebar-filter-clear">Clean All</a>
+                    </div>
+                    <div class="widget">
+                        <h3 class="widget-title">
+                            Browse Category
+                        </h3><!-- End .widget-title -->
+
+                        <div class="widget-body">
+                            <div class="filter-items filter-items-count">
+                                <% categoryData.forEach(element => { %>
+                                    <% if (element.is_listed === true) { %>
+                                        <div class="filter-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="cat-<%= element._id %>" value="<%= element._id %>">
+                                                <label class="custom-control-label" for="cat-<%= element._id %>"><%= element.cateName %></label>
+                                            </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .filter-item -->
+                                    <% } %>
+                                <% }) %>
+                            </div><!-- End .filter-items -->
+                        </div><!-- End .widget-body -->
+
+                    </div><!-- End .widget -->
+                </div><!-- End .sidebar-filter-wrapper -->
+            </aside><!-- End .sidebar-filter -->
+        </div><!-- End .page-content -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                    <a class="page-link page-link-prev" href="/products?page=<%= currentPage - 1 %>" aria-label="Previous">
+                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                    </a>
+                </li>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="/products?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <li class="page-item <%= !hasNextPage ? 'disabled' : '' %>">
+                    <a class="page-link page-link-next" href="/products?page=<%= currentPage + 1 %>" aria-label="Next">
+                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                    </a>
+                </li>                
+            </ul>
+        </nav>
+    </main><!-- End .main -->
+
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="/user/assets/images/elaine_final_logo_white.png" class="footer-logo"
+                                alt="Footer Logo" width="105" height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                magna eros eu erat. </p>
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">How to shop on Elaine</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contactUs">Contact us</a></li>
+                                <li><a href="userLogin">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="userSignup">Sign Up</a></li>
+                                <li><a href="cart">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
+
+
+    </footer><!-- End .footer -->
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div class="mobile-menu-container">
+    <div class="mobile-menu-wrapper">
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+        <form action="#" method="get" class="mobile-search">
+            <label for="mobile-search" class="sr-only">Search</label>
+            <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                placeholder="Search in..." required>
+            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+        </form>
+
+        <nav class="mobile-nav">
+
+            <ul class="mobile-menu">
+                <li class="active">
+                    <a href="userHome">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Products</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Contact</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">About Us</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">My Account</a>
+                </li>
+            </ul>
+
+        </nav><!-- End .mobile-nav -->
+
+        <div class="social-icons">
+            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+        </div><!-- End .social-icons -->
+    </div><!-- End .mobile-menu-wrapper -->
+</div><!-- End .mobile-menu-container -->     
+
+<!-- Plugins JS File -->
+<script src="/user/assets/js/jquery.min.js"></script>
+<script src="/user/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/user/assets/js/jquery.hoverIntent.min.js"></script>
+<script src="/user/assets/js/jquery.waypoints.min.js"></script>
+<script src="/user/assets/js/superfish.min.js"></script>
+<script src="/user/assets/js/owl.carousel.min.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/jquery.magnific-popup.min.js"></script>
+<script src="/user/assets/js/jquery.countdown.min.js"></script>
+    
+<!-- Main JS File -->
+<script src="/user/assets/js/main.js"></script>
+<script src="/user/assets/js/demos/demo-6.js"></script>
+<script src="/user/assets/js/demos/demo-16.js"></script>
+   
+<!--Sweet Alert  -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function addToCart(productId) {
+        fetch(`/addProductsToCart?productId=${productId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Item added to cart") {
+                    Swal.fire({
+                                position: "bottom",
+                                text: 'Item added to cart',
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 500,
+                                width: 300,
+                            });
+                } else if (data.message === "Item is already in the cart") {
+                    Swal.fire({
+                                position: "bottom",
+                                text: 'This item is already in your cart',
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 500,
+                                width: 300,
+                            });
+                } else {
+                    Swal.fire({
+                                position: "bottom",
+                                text: data.message,
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 500,
+                                width: 300,
+                            });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                            position: "bottom",
+                            text: "Something went wrong",
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 500,
+                            width: 300,
+                        });
+            });
+    }
+    </script>
+
+<script>
+
+    function addToWishlist(productId){
+        fetch(`/addToWishlist?productId=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Item added to wishlist") {
+                Swal.fire({
+                            position: "bottom",
+                            text: "Item added to wishlist",
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 500,
+                            width: 300,
+                        });
+            }  else {
+                Swal.fire({
+                            position: "bottom",
+                            text: data.message,
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 500,
+                            width: 300,
+                        });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                        position: "bottom",
+                        text: "Something went wrong",
+                        showConfirmButton: false,
+                        color: "#fff",
+                        background:"#000000",
+                        timer: 500,
+                        width: 300,
+                    });
+        });
+    }
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectElement = document.querySelector('#sortby');
+
+        selectElement.addEventListener('change', function() {
+            const selectedValue = selectElement.value;
+
+            fetch('/sortingProducts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sortby: selectedValue })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Unknown network error occurred!");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data.success){
+                    const products = data.data;
+                    updateUIWithSortedProducts(products);
+                }else {
+                    console.error('Error:', data); 
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+
+
+</script>
+<script>
+ function updateUIWithSortedProducts(products) {
+    const productsContainer = document.querySelector('.products .row');
+    productsContainer.innerHTML = '';
+    
+    products.forEach(product => {
+        if (product.is_listed === true && product.prdctQuantity > 0) {
+            let productHTML = `
+                <div class="col-6 col-md-4 col-lg-4">
+                    <div class="product product-7 text-center">
+                        <figure class="product-media">
+                            <a href="productDetails?productId=${product._id}">
+                                <img src="/processed_images/${product.prdctImage[0]}" alt="Product image" class="product-image">
+                            </a>`;
+            
+            if (product.offer && product.offer.status === true) {
+                productHTML += `<span class="product-label label-sale">Sale</span>`;
+            }
+            
+            productHTML += `
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('${product._id}')"><span>Add to wishlist</span></a>
+                            </div><!-- End .product-action-vertical -->
+                            <div class="product-action">
+                                <a href="#" class="btn-product btn-cart" onclick="addToCart('${product._id}')"><span>Add to cart</span></a>
+                            </div><!-- End .product-action -->
+                        </figure><!-- End .product-media -->
+                        <div class="product-body">
+                            <h3 class="product-title"><a href="productDetails?productId=${product._id}">${product.prdctName}</a></h3><!-- End .product-title -->
+                            <div class="product-price">`;
+            
+            if (product.offer && product.offer.status === true) {
+                productHTML += `
+                                <h5 class="new-price">₹${product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice) / 100}</h5>
+                                <p class="old-price"><s>₹${product.prdctPrice}</s></p>`;
+            } else {
+                productHTML += `<p>₹${product.prdctPrice}</p>`;
+            }
+            
+            productHTML += `
+                            </div><!-- End .product-price -->
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                </div><!-- End .ratings -->
+                                <span class="ratings-text">(2 Reviews)</span>
+                            </div><!-- End .rating-container -->
+                        </div><!-- End .product-body -->
+                    </div><!-- End .product -->
+                </div><!-- End .col-sm-6 col-lg-4 -->
+            `;
+            
+            productsContainer.insertAdjacentHTML('beforeend', productHTML);
+        }
+    });
+}
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function handleFilterChange() {
+            const selectedCategories = Array.from(document.querySelectorAll('.custom-control-input:checked')).map(checkbox => checkbox.value);
+            
+            fetch('/filterProducts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ categories: selectedCategories })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const products = data.data;
+                    updateUIWithFilteredProducts(products); 
+                } else {
+                    console.error('Error:', data); 
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        document.querySelectorAll('.custom-control-input').forEach(checkbox => {
+            checkbox.addEventListener('change', handleFilterChange);
+        });
+
+        const clearFiltersLink = document.querySelector('.sidebar-filter-clear');
+        clearFiltersLink.addEventListener('click', function(event) {
+            event.preventDefault();
+
+        document.querySelectorAll('.custom-control-input:checked').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+            handleFilterChange();
+        });
+    });
+</script>
+
+
+<script>
+    function updateUIWithFilteredProducts (products){
+        const productsContainer = document.querySelector('.products .row');
+        productsContainer.innerHTML = '';
+        
+        products.forEach(product => {
+            if (product.is_listed === true && product.prdctQuantity > 0) {
+                const productHTML = `
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <a href="productDetails?productId=${product._id}">
+                                    <img src="/processed_images/${product.prdctImage[0]}"
+                                        alt="Product image" class="product-image">
+                                </a>`
+                                if (product.offer && product.offer.status === true) { 
+                                        `<span class="product-label label-sale">Sale</span>`
+                                } 
+                                `<div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('${product._id}')"><span>Add to wishlist</span></a>
+                                </div><!-- End .product-action-vertical -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${product._id}')"><span>Add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </figure><!-- End .product-media -->
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="productDetails?productId=${product._id}">${product.prdctName}</a></h3><!-- End .product-title -->`
+                                if (product.offer && product.offer.status === true) {
+                                    `<h5 class="new-price  ">₹${product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice)/100}</h5>`
+                                    `<p class="old-price "><s>₹ ${product.prdctPrice} </s></p>`
+                                } else { 
+                                `<p>₹${product.prdctPrice}</p>`
+                                }
+                                `<div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                    </div><!-- End .ratings -->
+                                    <span class="ratings-text">( 2 Reviews )</span>
+                                </div><!-- End .rating-container -->
+                            </div><!-- End .product-body -->
+                        </div><!-- End .product -->
+                    </div><!-- End .col-sm-6 col-lg-4 -->
+                `;
+                productsContainer.insertAdjacentHTML('beforeend', productHTML);
+            }
+        });
+    }
+</script>
+
+
+
+<%-include("../layout/user/footer")-%>

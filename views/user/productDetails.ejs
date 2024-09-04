@@ -1,0 +1,421 @@
+<%-include("../layout/user/header")-%>
+<div class="page-wrapper">
+    <header class="header header-6">
+        <div class="header-top">
+            <div class="container pt-1">
+                <div class="header-right">
+                    <ul class="top-menu top-link-menu">
+                        <li>
+                            <ul>
+                                <li><a href="/userLogout"><i class="icon-user"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- End .top-menu -->
+                </div><!-- End .header-right -->
+            </div>
+        </div>
+
+        <div class="header-middle">
+            <div class="container">
+                <div class="header-left">
+                    <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                        <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                        <form action="#" method="get">
+                            <div class="header-search-wrapper search-wrapper-wide">
+                                <label for="q" class="sr-only">Search</label>
+                                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                <input type="search" class="form-control" name="q" id="q"
+                                    placeholder="Search product ..." required>
+                            </div><!-- End .header-search-wrapper -->
+                        </form>
+                    </div><!-- End .header-search -->
+                </div>
+                <div class="header-center">
+                    <a href="userHome" class="logo">
+                        <h3 class="text-center font-weight-bolder text-uppercase">CLOTHI<span style="color: #EDAA38;">FY</span></h3>
+                    </a>
+                </div><!-- End .header-left -->
+
+                <div class="header-right">
+                    <a href="wishlist" class="wishlist-link">
+                        <i class="icon-heart-o"></i>
+                        <span class="wishlist-txt">My Wishlist</span>
+                    </a>
+                    <div class="dropdown cart-dropdown">
+                        <a href="cart" class="dropdown-toggle" role="button" aria-haspopup="true"
+                            aria-expanded="false" data-display="static">
+                            <i class="icon-shopping-cart"></i>
+                        </a>
+                    </div><!-- End .cart-dropdown -->
+                </div>
+            </div><!-- End .container -->
+        </div><!-- End .header-middle -->
+
+        <div class="header-bottom sticky-header">
+            <div class="container">
+                <div class="header-left">
+                    <nav class="main-nav">
+                        <ul class="menu sf-arrows">
+                            <li class="megamenu-container active">
+                                <a href="userHome">Home</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li><!-- start of pages -->
+                                <a href="products" class="sf">Products</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li><!-- start of pages -->
+                                <a href="contactUs" class="sf">Contact</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li>
+                                <a href="#" class="sf">About Us</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li>
+                                <a href="myAccount" class="sf">My Account</a>
+                            </li>
+                        </ul><!-- End .menu -->
+                    </nav><!-- End .main-nav -->
+
+                    <button class="mobile-menu-toggler">
+                        <span class="sr-only">Toggle mobile menu</span>
+                        <i class="icon-bars"></i>
+                    </button>
+                </div><!-- End .header-left -->
+            </div><!-- End .container -->
+        </div><!-- End .header-bottom -->
+    </header><!-- End .header -->
+
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container d-flex align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="userHome">Home</a></li>
+                    <li class="breadcrumb-item"><a href="products">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+                </ol>
+
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="container">
+                <div class="product-details-top">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-gallery product-gallery-vertical">
+                                <div class="row">
+                                    <figure class="product-main-image">
+                                        <img id="product-zoom" src="/processed_images/<%= productImagesArray[0] %>" data-zoom-image="/processed_images/<%= productImagesArray[0] %>" alt="product image">
+
+                                        <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                            <i class="icon-arrows"></i>
+                                        </a>
+                                        <% if (productDatabyId.offer && productDatabyId.offer.status === true) { %>
+                                            <span class="product-label label-sale"><%= productDatabyId.offer.offerPercentage %>% OFF</span>
+                                        <% } %>
+                                    </figure><!-- End .product-main-image -->
+                                    
+
+                                    <div id="product-zoom-gallery" class="product-image-gallery">
+                                        <% productImagesArray.forEach((item)=>{ %>
+                                            <a class="product-gallery-item active" href="#" data-image="/processed_images/<%= item %>" data-zoom-image="/processed_images/<%= item %>">
+                                                <img src="/processed_images/<%= item %>" alt="product side">
+                                            </a>
+                                        <% }) %>
+                                    </div><!-- End .product-image-gallery -->
+                                </div><!-- End .row -->
+                            </div><!-- End .product-gallery -->
+                        </div><!-- End .col-md-6 -->
+
+                        <div class="col-md-6">
+                            <div class="product-details">
+                                <h1 class="product-title"><%= productDatabyId.prdctName %></h1><!-- End .product-title -->
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                    </div><!-- End .ratings -->
+                                    <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                </div><!-- End .rating-container -->
+
+                                <div class="product-price">
+                                    <% if (productDatabyId.offer && productDatabyId.offer.status === true) { %>
+                                        <span class="new-price">₹<%= productDatabyId.prdctPrice - (productDatabyId.offer.offerPercentage * productDatabyId.prdctPrice)/100 %></span>
+                                        <span class="old-price"><s>₹<%= productDatabyId.prdctPrice %></s></span>     
+                                    <% } else { %>
+                                        ₹<%= productDatabyId.prdctPrice %>                               
+                                    <% } %>
+                                </div><!-- End .product-price -->
+                                <br>
+                                <div>
+                                    <% if(productDatabyId.prdctQuantity==0){ %>
+                                        <span>Out Of Stock</span>
+                                    <% } else { %>
+                                    <span>Stocks left :<%= productDatabyId.prdctQuantity %></span>
+                                    <% } %>
+                                </div>
+                                <br>
+                                <div class="product-content">
+                                    <p><%= productDatabyId.prdctDescription %></p>
+                                </div><!-- End .product-content -->
+                                <br>
+                                
+
+                                <div class="product-details-action">
+                                    <% if(productDatabyId.quantity<1) {%>
+                                        <p class="h6 text-danger">Out of stock</p>
+                                        <% }else{ %>
+                                            <a href="#" class="btn-product btn-cart" onclick="addToCart('<%= productDatabyId._id %>')"><span>Add to cart</span></a>
+                                            <% } %>
+                                        <div class="details-action-wrapper">
+                                            <a href="#" class="btn-product btn-wishlist" onclick="addToWishlist('<%= productDatabyId._id %>')" title="Wishlist"><span>Add to Wishlist</span></a>
+                                        </div><!-- End .details-action-wrapper -->
+                                </div><!-- End .product-details-action -->
+
+                                <div class="product-details-footer">
+                                    <div class="product-cat">
+                                        <span>Category:</span>
+                                        <a href="#"><%=productDatabyId.categoryId.cateName%></a>
+                                    </div><!-- End .product-cat -->
+
+                                </div><!-- End .product-details-footer -->
+                            </div><!-- End .product-details -->
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .product-details-top -->                              
+            </div><!-- End .container -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="/user/assets/images/elaine_final_logo_white.png" class="footer-logo"
+                                alt="Footer Logo" width="105" height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                magna eros eu erat. </p>
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">How to shop on Elaine</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contactUs">Contact us</a></li>
+                                <li><a href="userLogin">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="userSignup">Sign Up</a></li>
+                                <li><a href="cart">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
+
+
+    </footer><!-- End .footer -->
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div class="mobile-menu-container">
+    <div class="mobile-menu-wrapper">
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+        <form action="#" method="get" class="mobile-search">
+            <label for="mobile-search" class="sr-only">Search</label>
+            <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                placeholder="Search in..." required>
+            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+        </form>
+
+        <nav class="mobile-nav">
+
+            <ul class="mobile-menu">
+                <li class="active">
+                    <a href="userHome">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Products</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Contact</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">About Us</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">My Account</a>
+                </li>
+            </ul>
+
+        </nav><!-- End .mobile-nav -->
+
+        <div class="social-icons">
+            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+        </div><!-- End .social-icons -->
+    </div><!-- End .mobile-menu-wrapper -->
+</div><!-- End .mobile-menu-container -->
+
+<!-- Plugins JS File -->
+<script src="/user/assets/js/jquery.min.js"></script>
+<script src="/user/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/user/assets/js/jquery.hoverIntent.min.js"></script>
+<script src="/user/assets/js/jquery.waypoints.min.js"></script>
+<script src="/user/assets/js/superfish.min.js"></script>
+<script src="/user/assets/js/owl.carousel.min.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/jquery.elevateZoom.min.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/jquery.magnific-popup.min.js"></script>
+<!-- Main JS File -->
+<script src="/user/assets/js/main.js"></script>
+
+<!--Sweet Alert  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function addToCart(productId) {
+        fetch(`/addProductsToCart?productId=${productId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Item added to cart") {
+                    Swal.fire({
+                                position: "bottom",
+                                text: 'Item added to cart',
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 1000,
+                                width: 300,
+                            });
+                } else if (data.message === "Item is already in the cart") {
+                    Swal.fire({
+                                position: "bottom",
+                                text: 'This item is already in your cart',
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 1000,
+                                width: 300,
+                            });
+                } else {
+                    Swal.fire({
+                                position: "bottom",
+                                text: data.message,
+                                showConfirmButton: false,
+                                color: "#fff",
+                                background:"#000000",
+                                timer: 1000,
+                                width: 300,
+                            });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                            position: "bottom",
+                            text: "Something went wrong",
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 1000,
+                            width: 300,
+                        });
+            });
+    }
+    </script>
+
+<script>
+
+    function addToWishlist(productId){
+        fetch(`/addToWishlist?productId=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Item added to wishlist") {
+                Swal.fire({
+                            position: "bottom",
+                            text: "Item added to wishlist",
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 1000,
+                            width: 300,
+                        });
+            }  else {
+                Swal.fire({
+                            position: "bottom",
+                            text: data.message,
+                            showConfirmButton: false,
+                            color: "#fff",
+                            background:"#000000",
+                            timer: 1000,
+                            width: 300,
+                        });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                        position: "bottom",
+                        text: "Something went wrong",
+                        showConfirmButton: false,
+                        color: "#fff",
+                        background:"#000000",
+                        timer: 1000,
+                        width: 300,
+                    });
+        });
+    }
+
+</script>
+    
+
+<%-include("../layout/user/footer")-%>

@@ -1,0 +1,843 @@
+<%-include("../layout/user/header")-%>
+<style>
+.track-line {
+height: 2px !important;
+background-color: #488978;
+opacity: 1;
+}
+
+.dot {
+height: 10px;
+width: 10px;
+margin-left: 3px;
+margin-right: 3px;
+margin-top: 0px;
+background-color: #488978;
+border-radius: 50%;
+display: inline-block
+}
+
+.big-dot {
+height: 15px;
+width: 15px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+background-color: #488978;
+border-radius: 50%;
+display: inline-block;
+}
+
+.big-dot i {
+font-size: 12px;
+}
+
+.card-stepper {
+z-index: 0
+}
+
+/* Header */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Order Details Section */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 1000px; /* Adjust the max-width as needed */
+    margin: 0 auto; /* Center the card horizontally */
+    margin: 20px;
+    padding: 10px;
+}
+
+.card-body {
+    padding: 20px;
+
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.cancel{
+    margin-left: -20px;
+}
+
+/* Overall Styling */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    color: #666666;
+    line-height: 1.6;
+}
+.order-details{
+    font-family: 'Roboto', sans-serif;
+    color: #dc945a;
+}
+
+</style>
+
+<div class="page-wrapper">
+    <header class="header header-6">
+        <div class="header-top">
+            <div class="container pt-1">
+                <div class="header-right">
+                    <ul class="top-menu top-link-menu">
+                        <li>
+                            <ul>
+                                <li><a href="/userLogout"><i class="icon-user"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- End .top-menu -->
+                </div><!-- End .header-right -->
+            </div>
+        </div>
+
+        <div class="header-middle">
+            <div class="container">
+                <div class="header-left">
+                    <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                        <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                        <form action="#" method="get">
+                            <div class="header-search-wrapper search-wrapper-wide">
+                                <label for="q" class="sr-only">Search</label>
+                                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                <input type="search" class="form-control" name="q" id="q"
+                                    placeholder="Search product ..." required>
+                            </div><!-- End .header-search-wrapper -->
+                        </form>
+                    </div><!-- End .header-search -->
+                </div>
+                <div class="header-center">
+                    <a href="userHome" class="logo">
+                        <h3 class="text-center font-weight-bolder text-uppercase">CLOTHI<span style="color: #EDAA38;">FY</h3>
+                    </a>
+                </div><!-- End .header-left -->
+
+                <div class="header-right">
+                    <a href="wishlist" class="wishlist-link">
+                        <i class="icon-heart-o"></i>
+                        <span class="wishlist-txt">My Wishlist</span>
+                    </a>
+                    <div class="dropdown cart-dropdown">
+                        <a href="cart" class="dropdown-toggle" role="button" aria-haspopup="true"
+                            aria-expanded="false" data-display="static">
+                            <i class="icon-shopping-cart"></i>
+                        </a>
+                    </div><!-- End .cart-dropdown -->
+                </div>
+            </div><!-- End .container -->
+        </div><!-- End .header-middle -->
+
+        <div class="header-bottom sticky-header">
+            <div class="container">
+                <div class="header-left">
+                    <nav class="main-nav">
+                        <ul class="menu sf-arrows">
+                            <li class="megamenu-container active">
+                                <a href="userHome">Home</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li><!-- start of pages -->
+                                <a href="products" class="sf">Products</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li><!-- start of pages -->
+                                <a href="contactUs" class="sf">Contact</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- end of pages -->
+
+                            <li>
+                                <a href="#" class="sf">About Us</a>
+                            </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <li>
+                                <a href="myAccount" class="sf">My Account</a>
+                            </li>
+                        </ul><!-- End .menu -->
+                    </nav><!-- End .main-nav -->
+
+                    <button class="mobile-menu-toggler">
+                        <span class="sr-only">Toggle mobile menu</span>
+                        <i class="icon-bars"></i>
+                    </button>
+                </div><!-- End .header-left -->
+            </div><!-- End .container -->
+        </div><!-- End .header-bottom -->
+    </header><!-- End .header -->
+
+    <main class="main">
+        <div class="page-header text-center"
+            style="background-image: url('/user/assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Order Details<span>Orders</span></h1>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-content"> 
+            <div class="container-fluid"> 
+
+                <section class=" gradient-custom">
+                    <div class="container py-5 ">
+                      <div class="row d-flex justify-content-center align-items-center h-80">
+                        
+                        <div class="col-lg-12 col-xl-12">
+                          <div class="card" style="border-radius: 10px;">
+                            <div class="card-body p-2">
+                              <div class=" justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal p-2" style="color: #dc945a;">Receipt</p>
+                              </div>
+                              <% let deliveredStatus = 0 %>
+                                <% orderData[0].products.forEach((product, productIndex) => { 
+                                    if(product.status !== 'Order Delivered'){
+                                        deliveredStatus = 1;
+                                    }
+                                    %>
+                                    
+                              <div class="card shadow-0 border mb-4">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-2 my-3">
+                                        <img src="/processed_images/<%= productsData[0][productIndex].productData.prdctImage[0] %>" alt="Product image">
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                      <p class="text-muted mb-0"><%= productsData[0][productIndex].productData.prdctName %></p>
+                                    </div>
+                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                      <p class="text-muted mb-0 "><%= productsData[0][productIndex].cateName %></p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                      <p class="text-muted mb-0 "><%= orderData[0].date.toDateString() %></p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                      <p class="text-muted mb-0 ">Qty: <%= product.quantity %></p>
+                                    </div>
+                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 ">₹<%= product.productPrice.toFixed(2) %></p>
+                                      </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                      <p class="text-muted mb-0 ">₹<%= product.totalPrice.toFixed(2) %></p>
+                                    </div>
+                                  </div>
+                                  <% if(product.status === 'Order Placed' || product.status === 'Order Shipped'){%>
+                                    <div class="col-6 col-lg-4 col-xl-2">
+                                        <div class="btn-wrap">
+                                            <a href="#" class="btn btn-outline-primary cancel btn-rounded text-danger" onclick="cancelProduct('<%= product._id %>', '<%= orderData[0]._id %>')">Cancel</a>
+                                        </div><!-- End .btn-wrap -->
+                                    </div><!-- End .col-md-4 col-lg-2 -->
+                                  <%}else if(product.status === 'Order Delivered' ){%>
+                                    <div class="col-6 col-lg-4 col-xl-2">
+                                        <div class="btn-wrap">
+                                            <a href="#" class="btn btn-outline-primary cancel btn-rounded text-danger" onclick="returnProduct('<%= product._id %>', '<%= orderData[0]._id %>')">Return</a>
+                                        </div><!-- End .btn-wrap -->
+                                    </div><!-- End .col-md-4 col-lg-2 -->
+                                  <%}else if(product.status === 'Return Requested' ){%>
+                                    <div class="col-6 col-lg-4 col-xl-2">
+                                        <div class="btn-wrap">
+                                            <p class="text-danger">Return Requested</p>
+                                        </div><!-- End .btn-wrap -->
+                                    </div><!-- End .col-md-4 col-lg-2 -->
+                                    <%}else if(product.status === 'Return Approved' ){%>
+                                        <div class="col-6 col-lg-4 col-xl-2">
+                                        <div class="btn-wrap">
+                                            <p class="text-danger">Return Approved</p>
+                                        </div><!-- End .btn-wrap -->
+                                    </div><!-- End .col-md-4 col-lg-2 -->
+
+
+                                  <%}%>
+                                  <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                                  <div class="row d-flex align-items-center">
+                                    <div class="col-md-2">
+                                      <p class="text-muted mb-0 small">Track Order</p>
+                                    </div>
+                                    
+                                    <div class="col-md-10">
+                                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                            <span class="dot"></span>
+                                            <% if(product.status == "Order Placed") { %>
+                                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                            <% } else if(product.status == "Order Shipped") { %>
+                                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                                <hr class="flex-fill track-line "><span class="dot"></span>
+                                            <% } else if(product.status == "Order Delivered") { %>
+                                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                                <hr class="flex-fill track-line "><span class="dot"></span>
+                                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                            <% } else if(product.status == 'Order Cancelled'){%>
+
+                                                <hr class="flex-fill track-line"><span class="dot"></span>
+                                            <%}%>
+                                            <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot">
+                                                <i class="fa fa-check text-white"></i>
+                                            </span>
+                                        </div>
+                                        <% if (orderData[0].paymentStatus === 'Failed' || orderData[0].paymentStatus === 'Pending' ) { %>
+                                            <div class="d-flex flex-row justify-content-between align-items-center">
+
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span class="text-danger">Payment Failed</span>
+                                                </div>
+                                            </div>
+                                        <% }else if(orderData[0].paymentStatus === 'Paid'){ %>
+                                        <div class="d-flex flex-row justify-content-between align-items-center">
+                                            <% if(product.status == "Order Placed") { %>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                            <% } else if(product.status == "Order Shipped") { %>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                                 <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                                <div class="d-flex flex-column small justify-content-center align-items-center">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order Shipped</span>
+                                                </div>
+                                            <% } else if(product.status == "Order Delivered" || product.status === 'Return Requested') { %>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                                <div class="d-flex flex-column small justify-content-center align-items-center">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order Shipped</span>
+                                                </div>
+                                                <div class="d-flex flex-column small align-items-end">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order Delivered</span>
+                                                </div>
+                                            <% }else if(product.status == "Order Cancelled"){%>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span>
+                                                </div>
+                                                <div class="d-flex flex-column small align-items-start">
+                                                    <!-- <span><%= orderData[0].date.toDateString() %></span>
+                                                    <span>Order placed</span> -->
+                                                </div>
+                                                <div class="d-flex flex-column small align-items-end">
+                                                    <!-- <span><%= Date.now() %></span> -->
+                                                    <span class="text-danger">Order Cancelled</span>
+                                                </div>
+                                            <%}%>
+
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <% }); %>
+                              <p class="font-weight-bolder order-details">Order Details</p>
+                              <div class="d-flex justify-content-between pt-2">
+                                <p class="text-muted mb-0">Payment Mode &nbsp; </p>
+                                <p class="text-muted mb-0"><span class="fw-bold me-4"><%= orderData[0].payment %></span></p>
+                              </div>
+                              <%if(discount) {%>
+                              <div class="d-flex justify-content-between pt-2 ">
+                                <p class="fw-bold mb-0">Total Amount </p>
+                                <p class="text-muted mb-0"><span class="fw-bold me-4">₹<%= ((orderData[0].totalAmount - 60) + orderData[0].couponDiscount).toFixed(2)  %></span></p>
+                              </div>
+
+                              <div class="d-flex justify-content-between pt-1">
+                                <p class="fw-bold mb-0">Coupon Discount</p>
+                                <p class="text-muted mb-0"><span class="fw-bold me-4">₹<%= orderData[0].couponDiscount.toFixed(2) %></span></p>
+                              </div>
+                              <% }else{%>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <p class="fw-bold mb-0">Total Amount </p>
+                                        <p class="text-muted mb-0"><span class="fw-bold me-4">₹<%= (orderData[0].totalAmount - 60).toFixed(2) %></span></p>
+                                  </div>
+    
+                                  <div class="d-flex justify-content-between pt-1">
+                                    <p class="fw-bold mb-0">Coupon Discount</p>
+                                    <p class="text-muted mb-0"><span class="fw-bold me-4"> ₹0.00</span></p>
+                                  </div>
+                              <%} %>
+
+                            <br>
+                            <div class="card " style="max-width: 30rem;">
+                                <div class="card-header  text-dark"><b>Delivery Address</b></div>
+                                <div class="card-body">
+                                  <p class="card-text"><%= address.fullname %></p>
+                                  <p class="card-text"><%= address.addressline %>, <%= address.city %>, <%= address.state %>, pin: <%= address.pincode %></p>
+                                  <p class="card-text"> <%= address.email %></p>
+                                  <p class="card-text">Phone:</span> <%= address.phone %></p>
+                                </div>
+                              </div>
+                              <div class="d-flex justify-content-between mb-5">
+                                <% if (orderData[0].paymentStatus === 'Paid' && deliveredStatus === 0) { %>
+                                    <p class="text-muted ml-5">
+                                        <button onclick="downloadInvoice('<%= orderData[0]._id %>')" class="btn btn-primary">Download Invoice</button>
+                                    </p>
+                                <% } %>
+
+                                <% if(orderData[0].paymentStatus === "Failed") {%>
+                                    <p class="text-muted ml-5">
+                                        <button class="btn btn-primary" onclick="retryPayment('<%= orderData[0]._id %>')">Retry Payment</button>
+                                    </p>
+
+                                    <p class="text-muted ml-5 mt-2 "><span class="font-weight-bolder text-danger">Please note: The "Retry Payment" option is available for 12 hours after the order placement.</span></p>
+                                <% } %>
+                                
+                              </div>
+                            </div>
+                            <p class="text-muted mb-0 d-flex justify-content-end align-items-end" ><span class="fw-bold text-dark me-4">Delivery Charges:</span> ₹60.00</p>
+
+                            
+                            <div class="card-footer border-0 px-4 py-5"
+                              style=" border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                              <h5 class="d-flex align-items-center justify-content-end text-dark text-uppercase mb-0">
+                                Total paid: <span class="h2 mb-0 ms-2">&nbsp;&nbsp;₹<%= orderData[0].totalAmount %></span></h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>                               
+                            
+            </div>
+        </div>
+    </div>
+    </main>     
+
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="/user/assets/images/elaine_final_logo_white.png" class="footer-logo"
+                                alt="Footer Logo" width="105" height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                magna eros eu erat. </p>
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">How to shop on Elaine</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contactUs">Contact us</a></li>
+                                <li><a href="userLogin">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="userSignup">Sign Up</a></li>
+                                <li><a href="cart">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
+
+
+    </footer><!-- End .footer -->
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div class="mobile-menu-container">
+    <div class="mobile-menu-wrapper">
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+        <form action="#" method="get" class="mobile-search">
+            <label for="mobile-search" class="sr-only">Search</label>
+            <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                placeholder="Search in..." required>
+            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+        </form>
+
+        <nav class="mobile-nav">
+
+            <ul class="mobile-menu">
+                <li class="active">
+                    <a href="userHome">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Products</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">Contact</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">About Us</a>
+                </li>
+                <li>
+                    <a href="#" class="sf">My Account</a>
+                </li>
+            </ul>
+
+        </nav><!-- End .mobile-nav -->
+
+        <div class="social-icons">
+            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+        </div><!-- End .social-icons -->
+    </div><!-- End .mobile-menu-wrapper -->
+</div><!-- End .mobile-menu-container -->
+    
+<!-- Plugins JS File -->
+<script src="/user/assets/js/jquery.min.js"></script>
+<script src="/user/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/user/assets/js/jquery.hoverIntent.min.js"></script>
+<script src="/user/assets/js/jquery.waypoints.min.js"></script>
+<script src="/user/assets/js/superfish.min.js"></script>
+<script src="/user/assets/js/owl.carousel.min.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/user/assets/js/jquery.magnific-popup.min.js"></script>
+<script src="/user/assets/js/jquery.countdown.min.js"></script>
+
+
+<!-- Main JS File -->
+<script src="/user/assets/js/main.js"></script>
+<script src="/user/assets/js/demos/demo-6.js"></script>
+<script src="/user/assets/js/demos/demo-16.js"></script>
+
+<!-- sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- easy invoice -->
+<script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    function retryPayment(orderId) {
+        fetch("/retryPayment", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderId }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data.success) {
+                var options = {
+                    "key": data.KEY_ID,
+                    "amount": data.amount,
+                    "currency": 'INR',
+                    "name": 'clothyfy',
+                    "description": 'Test Transaction',
+                    "order_id": data.order.id,
+                    "handler": function (response) {
+                        alert('Payment Success');
+
+                        console.log('ready', response.razorpay_signature);
+                        console.log(response.razorpay_payment_id);
+
+                        window.location.reload();
+                    },
+                    "prefill": {
+                        "contact": 8908765434,
+                        "name": 'Aswathi Rajith',
+                        "email": 'aswathiachoos12@gmail.com'
+                    }
+                };
+                console.log(options);
+                var rzrPy = new Razorpay(options);
+                // for order success
+                rzrPy.on('payment.success', function (response) {
+                    alert("Payment Succeeded");
+                });
+                // for failed orders
+                rzrPy.on('payment.failed', function (response) {
+                    alert("Payment Failed");
+                });
+                rzrPy.open();
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Payment retry failed. Please try again later.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Something went wrong. Please try again later.",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        });
+    }
+
+    function verifyPayment(paymentId, orderId, signature, order, error){
+
+        const requestBody = {
+            paymentId: paymentId,
+            orderId: orderId,
+            signature: signature,
+            order: order
+        };
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        }
+
+        fetch("/verifyPayment", options)
+        .then(response => {
+            if(!response.ok){
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data.message === 'Payment Success'){
+                Swal.fire({
+                    title: "Success",
+                    text: "Your order has been placed successfully.",
+                    icon: "success",
+                    timer: 1500,
+                    buttons: false
+                })
+                setTimeout(function() {
+                    window.location.href = '/orderHistory';
+                }, 500);            
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Payment failed",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Something went wrong. Please try again later.",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        });
+
+    }
+</script>
+<script>
+    function cancelProduct(productId, orderId){
+
+        const requestBody = {
+            orderId: orderId,
+            productId: productId
+        }
+
+        fetch('cancelProduct',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+        .then(response => {
+            if(!response.ok){
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data.message === "Your order has been cancelled and the Purchase Amount is added to your wallet"){
+                Swal.fire({
+                        position: "bottom",
+                        text: 'Your order has been cancelled.!',
+                        showConfirmButton: false,
+                        color: "#fff",
+                        background:"#000000",
+                        timer: 1500,
+                        width: 300
+                });
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+            }else{
+                Swal.fire({
+                    position: "bottom",
+                    text: data.error,
+                    showConfirmButton: false,
+                    color: "#fff",
+                    background:"#000000",
+                    timer: 1500,
+                    width: 300
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error cancelling product:', error);
+            Swal.fire({
+                position: "bottom",
+                text: "Something went wrong",
+                showConfirmButton: false,
+                color: "#fff",
+                background:"#000000",
+                timer: 500,
+                width: 300,
+            });
+        })
+    }
+</script>
+<script>
+    function returnProduct(productId, orderId) {
+        Swal.fire({
+            title: 'Reason for Return',
+            input: 'textarea',
+            inputLabel: 'Please provide a reason for return',
+            inputPlaceholder: 'Enter your reason here...',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (reason) => {
+                return fetch('/returnProduct', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({productId, orderId, reason })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value && !result.value.error) {
+                    Swal.fire({
+                        title: 'Return Request Submitted!',
+                        text: 'Your return request has been submitted successfully.',
+                        icon: 'success'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Return Request Failed!',
+                        text: result.value.error || 'An error occurred while processing your request.',
+                        icon: 'error'
+                    });
+                }
+            }
+        })
+    }
+</script>
+<script>
+    
+function downloadInvoice(orderId) {
+    fetch('/generateInvoice', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderId }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'invoice.pdf';
+        document.body.appendChild(link);
+        link.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+</script>
+
+    <%-include("../layout/user/footer")-%>
