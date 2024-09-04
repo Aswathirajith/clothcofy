@@ -20,7 +20,7 @@ const couponLoad = async(req,res)=>{
         .limit(pageSize);
         res.render("admin/coupons",{couponData:couponData, totalPages, currentPage: page});
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -28,7 +28,7 @@ const addCouponLoad = async(req,res)=>{
     try {
         res.render('admin/addCoupon');
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -84,7 +84,7 @@ const addCoupons = async (req, res) =>{
         res.redirect("admin/coupons");
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 
 }
@@ -108,7 +108,7 @@ const deleteCoupon = async(req,res)=>{
        
         
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 

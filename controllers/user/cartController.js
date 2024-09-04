@@ -33,7 +33,7 @@ const cartLoad = async (req, res) => {
       
 
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 
 }
@@ -105,7 +105,7 @@ const addProductsToCart = async (req, res) => {
             return res.json({ message: "Item added to cart" });
         }
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 }
 
@@ -174,7 +174,7 @@ const updateCartQuantity = async (req, res) => {
         });
         
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 }
 

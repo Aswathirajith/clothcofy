@@ -13,7 +13,7 @@ const securePassword = async (password) => {
         return passwordHash;
 
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 }
 
@@ -40,7 +40,7 @@ const myAccountLaod = async(req,res)=>{
         
         res.render('user/myAccount',{userData,orderData});
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 // add and save address
@@ -87,7 +87,7 @@ const saveAddress = async (req, res) => {
         return res.json({ message: 'Address saved successfully' });
         
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 }
 
@@ -135,7 +135,7 @@ const editAddress = async (req, res) => {
             return res.json({ message: 'Address updated successfully' });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -158,7 +158,7 @@ const removeAddress = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -189,7 +189,7 @@ const editUserProfile = async (req, res) => {
         return res.json({message: "Profile details updated successfully.!"});
 
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 
 }
@@ -225,7 +225,7 @@ const changePassword = async (req, res) => {
         }
 
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 
 }

@@ -9,7 +9,7 @@ const adminLoad = async (req,res)=>{
     try {
         res.render('admin/adminLogin');
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -49,7 +49,7 @@ const verifyAdminLogin = async (req,res)=>{
 
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -136,7 +136,7 @@ const Loadhome = async (req,res)=>{
         });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 
@@ -149,7 +149,7 @@ const adminLogout = async(req,res)=>{
         req.session.destroy();
         res.redirect('/admin');
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 

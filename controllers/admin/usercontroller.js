@@ -20,7 +20,7 @@ const coustomerListLoad = async (req,res)=>{
         res.render('admin/customerList',{userData,totalPages, currentPage: page });
         
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -35,7 +35,7 @@ const BlockUser = async (req,res)=>{
         res.redirect('/admin/customerList');
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -46,7 +46,7 @@ const UnBlockUser = async (req,res)=>{
         res.redirect('/admin/customerList');
         
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 

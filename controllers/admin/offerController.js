@@ -18,7 +18,7 @@ const offerLoad = async (req,res)=>{
         .limit(pageSize);
         res.render('admin/offers',{offerData:offerData,totalPages, currentPage: page})
     } catch (error) {
-       console.log(error); 
+        res.render('admin/404error');
     }
 }
 
@@ -27,7 +27,7 @@ const addOfferLoad = async (req,res)=>{
     try {
         res.render('admin/addOffer');
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -83,7 +83,7 @@ const addOffer = async (req, res) => {
         return res.json({message: " success"})
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 
@@ -104,7 +104,7 @@ const changeOfferStatus = async (req, res) =>{
         res.json({success: true});
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 
@@ -126,7 +126,7 @@ const deleteOffer = async (req, res) => {
         res.json({ message: "Offer deleted successfully" });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 
@@ -152,7 +152,7 @@ const getCategories = async (req, res) => {
         res.json({ categories });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 module.exports ={

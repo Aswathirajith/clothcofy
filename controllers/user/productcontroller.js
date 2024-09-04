@@ -139,7 +139,7 @@ const sortProducts = async (req, res) => {
         res.json({success: true, data: sortedData});
 
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 
 }
@@ -165,7 +165,7 @@ const filterProducts = async (req, res) => {
         res.json({ success: true, data: categoryData });
         
     } catch (error) {
-        res.render("404");
+        res.render('user/404');
     }
 }
 

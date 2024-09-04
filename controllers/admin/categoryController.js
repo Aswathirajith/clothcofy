@@ -6,7 +6,7 @@ const categoryLoad = async (req,res)=>{
         res.render('admin/addCategory',{cateData});
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 }
 
@@ -67,7 +67,7 @@ const listCategory = async (req,res)=>{
         res.redirect("/admin/addCategory");
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }
@@ -81,7 +81,7 @@ const UnlistCategory = async (req,res)=>{
         res.redirect("/admin/addCategory");
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }
@@ -101,7 +101,7 @@ const editCategory = async (req, res) => {
         }
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 

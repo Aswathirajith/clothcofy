@@ -67,7 +67,7 @@ const checkoutLoad = async (req, res) => {
         res.render("user/checkout", {userDataCheckout, cartData, couponExists, totalPriceSum});
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -127,7 +127,7 @@ const addCoupon = async (req, res) => {
         }       
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -268,7 +268,7 @@ const placeOrder = async (req, res) => {
         res.json({ message: "Your order has been placed successfully." });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -303,7 +303,7 @@ const orderHistoryLoad = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -360,7 +360,7 @@ const orderDetailsLoad = async (req, res) => {
         res.render("user/orderDetails",{ cartData, orderData, productsData, address, totalPriceSum, discount });
 
     } catch (error) {
-        console.log(eror);
+        res.render('user/404');
     }
 
 }
@@ -504,7 +504,7 @@ const createWalletOrder = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -573,7 +573,7 @@ const cancelProduct = async (req, res) => {
         }       
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -610,7 +610,7 @@ const handleReturnProduct = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -746,7 +746,7 @@ const createRazorpayOrder = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -774,7 +774,7 @@ const verifyRazorPayment = async (req, res) => {
         }
     } catch (error) {
 
-        console.log(error);
+        res.render('user/404');
 
     }
 };
@@ -789,7 +789,7 @@ const failedPayment = async (req, res) => {
         res.json({ success: true, message: 'Payment failed response handled successfully' });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 
 }
@@ -833,7 +833,7 @@ const retryRazorPayment = async (req, res) => {
             res.json({ success: false, error: "Payment status is not 'Failed'" });
         }
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -913,7 +913,7 @@ const generateInvoice = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 };
 

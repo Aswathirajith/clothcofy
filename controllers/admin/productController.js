@@ -42,7 +42,7 @@ const addProductLoad = async (req, res) => {
         res.render("admin/addProduct", { prdctData, cateData });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }
@@ -187,7 +187,7 @@ const addProduct = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 };
 
@@ -202,7 +202,7 @@ const listProduct = async (req, res) => {
         res.redirect("/admin/productsList");
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }
@@ -219,7 +219,7 @@ const unlistProduct = async (req, res) => {
         res.redirect("/admin/productsList");
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }

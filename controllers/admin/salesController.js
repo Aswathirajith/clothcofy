@@ -62,7 +62,7 @@ const salesReportLoad = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        res.render('admin/404error');
     }
 
 }
@@ -133,7 +133,7 @@ const generateSalesReport = async (req, res) => {
         res.json({ success: true, orderData });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 
 }

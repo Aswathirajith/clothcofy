@@ -113,7 +113,7 @@ const verifySignup = async (req, res) => {
 
         }
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -181,7 +181,7 @@ const userHomeLoad = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 
@@ -254,7 +254,7 @@ const contactUs = async(req,res)=>{
     try {
         res.render("user/contactUs")
     } catch (error) {
-        console.log(error);
+        res.render('user/404');
     }
 }
 

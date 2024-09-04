@@ -25,7 +25,7 @@ const ordersLoad = async (req, res) => {
         });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 }
 
@@ -51,7 +51,7 @@ const orderDetails = async (req, res) => {
         });
 
     } catch (error) {
-        res.render("admin/404error");
+        res.render('admin/404error');
     }
 
 }
@@ -92,7 +92,7 @@ const shippedStatusChange = async (req, res) => {
         return res.json({ message: 'Order status updated to Shipped successfully' });
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 };
 
@@ -133,7 +133,7 @@ const deliveredStatusChange = async (req, res) => {
 
         return res.json({ message: 'Order status updated to Delivered successfully' });
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 };
 
@@ -165,7 +165,7 @@ const cancelledStatusChange = async (req, res) => {
 
         return res.json({ message: 'Order status updated to Cancelled successfully' });
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 };
 
@@ -197,7 +197,7 @@ const approveReturnRequest = async (req, res) => {
         }
 
     } catch (error) {
-        res.render("404error");
+        res.render('admin/404error');
     }
 };
 
