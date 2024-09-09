@@ -20,7 +20,7 @@ const securePassword = async (password) => {
 
 const userLoadpage= async (req,res)=>{
     try {
-        res.render("user/userLoadpage")
+        res.render("user/userLoadPage") 
     } catch (error) {
         res.render('user/404');
     }
@@ -37,7 +37,7 @@ const userLoginLoad = async (req,res)=>{
 
 const userSignupLoad = async (req,res)=>{
     try {
-        res.render('user/usersignup');
+        res.render('user/userSignup');
     } catch (error) {
         res.render('user/404');
     }
@@ -68,7 +68,7 @@ const verifySignup = async (req, res) => {
                             req.session.email = req.body.email;
                             req.session.name = checkAlreadyMail.name;
 
-                            res.redirect("/verifyOtp");
+                            res.redirect("/verifyOtp"); 
 
                         }
                     } else {
