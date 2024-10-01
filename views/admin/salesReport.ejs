@@ -196,7 +196,14 @@
                                 <p class="m-0"><span class="fw-bold">Total Coupon Discount:</span> &nbsp;&nbsp;&nbsp; ₹ <%= couponTotal.toFixed(2) %></p>
                                 <p class="m-0"><span class="fw-bold">Total Offer Discount:</span> &nbsp;&nbsp;&nbsp;&nbsp; ₹ <%= offerTotal.toFixed(2) %></p>
                             </div>
-                        <% } %>               
+                            
+                        <% }else  { %>
+                            <div class="text-end mt-1 p-4">
+                                <p class="m-0"><span class="fw-bold">Grand Total:0</p>
+                                <p class="m-0"><span class="fw-bold">Total Coupon Discount:0</p>
+                                <p class="m-0"><span class="fw-bold">Total Offer Discount:0</p>
+                            </div>
+                        <% } %>             
                     </div>
                 </div>
                 <!-- table-responsive end// -->
