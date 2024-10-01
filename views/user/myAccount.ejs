@@ -622,6 +622,16 @@
         <!-- ---------------------------------------- end coupons ------------------------------------- -->
 
         <!-- ---------------------------------------- Change password ----------------------------------------- -->
+        <div class="d-flex justify-content-center message">
+            <% 
+            if(typeof message !== 'undefined')
+            {
+            %> 
+            <p style="color: red;"><%= message %></p>
+            <%
+            }
+            %>
+        </div>
         <div class="tab-pane fade" id="tab-change-password" role="tabpanel" aria-labelledby="tab-change-address-link">
             <form action="/changePassword" id="changePasswordForm" method="post">
                 <!-- <div>

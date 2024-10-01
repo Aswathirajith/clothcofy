@@ -207,7 +207,8 @@ const placeOrder = async (req, res) => {
         {
             return res.json({error: "Order above Rs 1000 not allowed for COD"});
         }
-
+       if(paymentMode === "COD")
+       {
         if(quantity> 0){
             var newOrder = new Order({
                 userId: userData._id,
@@ -217,7 +218,7 @@ const placeOrder = async (req, res) => {
                 email: userData.email,
                 couponDiscount: couponDiscount,
                 offerDiscount: totalPriceSum,
-                totalAmount: totalAmount + 60,
+                totalAmount: totalAmount,
                 date: new Date(),
                 payment: paymentMode,
                 products: cartData.products.map(product => ({
@@ -232,6 +233,7 @@ const placeOrder = async (req, res) => {
         }else{
             return res.json({error: "Out of Stock!"})
         }
+       }
 
         for (const product of cartData.products) {
             await Product.updateOne(
@@ -245,10 +247,17 @@ const placeOrder = async (req, res) => {
                 return res.json({error: "This product is out of Stock!"});
             }
         });
+         
+        if(paymentMode === "COD")
+        {
+           cartData.products = [];
+            await cartData.save();
+        }
+       
+        if(paymentMode === "COD")
+        {
 
-        cartData.products = [];
-        await cartData.save();
-
+        
         if (coupon) {
             const couponData = await Coupon.findOne({ code: coupon });
             if (couponData) {
@@ -258,7 +267,9 @@ const placeOrder = async (req, res) => {
                     await couponData.save();
                 }
             }
-        }
+        }}
+       if(paymentMode === "COD")
+       {
 
         if(newOrder){
             newOrder.paymentStatus = 'Paid';
@@ -266,11 +277,12 @@ const placeOrder = async (req, res) => {
         }
 
         res.json({ message: "Your order has been placed successfully." });
-
+    }
     } catch (error) {
         res.render('user/404');
-    }
+   }
 }
+
 
 // order history
 const orderHistoryLoad = async (req, res) => {
@@ -427,7 +439,7 @@ const createWalletOrder = async (req, res) => {
                 email: userData.email,
                 couponDiscount: couponDiscount,
                 offerDiscount: totalPriceSum,
-                totalAmount: totalAmount + 60,
+                totalAmount: totalAmount ,
                 date: new Date(),
                 payment: paymentMode,
                 products: cartData.products.map(product => ({
@@ -666,7 +678,7 @@ const createRazorpayOrder = async (req, res) => {
         // total amount of the order - checking if the coupon is available or not
         const totalAmount = cartData.totalCost - couponDiscount;
 
-        const amount = (totalAmount + 60) * 100;
+        const amount = (totalAmount) * 100;
         const orderId = await generateOrderId();
 
         const options = {
@@ -687,7 +699,7 @@ const createRazorpayOrder = async (req, res) => {
                 email: userData.email,
                 couponDiscount: couponDiscount,
                 offerDiscount: totalPriceSum,
-                totalAmount: totalAmount + 60,
+                totalAmount: totalAmount,
                 date: new Date(),
                 payment: paymentMode,
                 products: cartData.products.map(product => ({
@@ -700,17 +712,7 @@ const createRazorpayOrder = async (req, res) => {
             })
             await newrazorpayOrder.save();
 
-            if (coupon) {
-                const couponData = await Coupon.findOne({ code: coupon });
-                if (couponData) {
-                    const isCouponUsed = couponData.usedCoupons.some(coupon => coupon.userId.equals(req.session.user_id));
-                    
-                    if (!isCouponUsed) {
-                        couponData.usedCoupons.push({ userId: req.session.user_id, status: true });
-                        await couponData.save();
-                    }
-                }
-            }  
+            
 
             for (const product of cartData.products) {
                 
@@ -727,8 +729,7 @@ const createRazorpayOrder = async (req, res) => {
                 }
             });
             
-            cartData.products = [];
-            await cartData.save();
+           
         }else{
             return res.json({error: "Out of Stock!"});
         }
@@ -763,8 +764,21 @@ const verifyRazorPayment = async (req, res) => {
         if (hmacValue === signature) {
             
             await Order.findByIdAndUpdate({_id: order}, { paymentStatus: 'Paid' });
+            if (coupon) {
+                const couponData = await Coupon.findOne({ code: coupon });
+                if (couponData) {
+                    const isCouponUsed = couponData.usedCoupons.some(coupon => coupon.userId.equals(req.session.user_id));
+                    
+                    if (!isCouponUsed) {
+                        couponData.usedCoupons.push({ userId: req.session.user_id, status: true });
+                        await couponData.save();
+                    }
+                }
+            }  
             console.log('Payment verification successful.');
             res.json({ message: "Payment Success" });
+            cartData.products = [];
+            await cartData.save();
 
         } else {
 
@@ -786,7 +800,9 @@ const failedPayment = async (req, res) => {
         const { orderId } = req.body;
         
         await Order.findByIdAndUpdate({_id: orderId},{paymentStatus: "Failed"});
+        
         res.json({ success: true, message: 'Payment failed response handled successfully' });
+            
 
     } catch (error) {
         res.render('user/404');
@@ -867,7 +883,7 @@ const generateInvoice = async (req, res) => {
             quantity: 0,
             description: 'Delivery Charge',
             taxRate: 0,
-            price: 60 
+            price: 0
         });
 
         if(orderData.paymentStatus !== "Failed"){

@@ -203,6 +203,13 @@ const changePassword = async (req, res) => {
         const currentPassword = req.body.currentPassword;
         const newPassword = req.body.newPassword;
         const confirmPassword = req.body.confirmPassword;
+        const userId = req.session.user_id;
+        const userData = await User.findById(userId);
+        
+         const passwordMatch = await bcrypt.compare(currentPassword, userData.password);
+        if (!passwordMatch) {
+            return res.json({ message: "Current password is incorrect." });
+        }
 
         //current and new are same
         if(currentPassword === newPassword){

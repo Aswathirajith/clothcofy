@@ -22,14 +22,14 @@
                 <div class="header-left">
                     <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                         <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                        <form action="#" method="get">
+                        <form id="searchForm" method="get" action="#">
                             <div class="header-search-wrapper search-wrapper-wide">
                                 <label for="q" class="sr-only">Search</label>
+                                <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
                                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                                <input type="search" class="form-control" name="q" id="q"
-                                    placeholder="Search product ..." required>
                             </div><!-- End .header-search-wrapper -->
                         </form>
+                        
                     </div><!-- End .header-search -->
                 </div>
                 <div class="header-center">
@@ -489,15 +489,12 @@
     }
 
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectElement = document.querySelector('#sortby');
 
-        selectElement.addEventListener('change', function() {
-            const selectedValue = selectElement.value;
-
-            fetch('/sortingProducts', {
+        function fetchProducts(selectedValue, page = 1) {
+            fetch(`/sortingProducts?page=${page}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -511,80 +508,103 @@
                 return response.json();
             })
             .then(data => {
-                if(data.success){
+                if (data.success) {
                     const products = data.data;
                     updateUIWithSortedProducts(products);
-                }else {
-                    console.error('Error:', data); 
+                    updatePagination(data.currentPage, data.totalPages, selectedValue);
+                } else {
+                    console.error('Error:', data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+        }
+
+        selectElement.addEventListener('change', function() {
+            const selectedValue = selectElement.value;
+            fetchProducts(selectedValue); // Fetch sorted products starting from page 1
         });
-    });
 
+        // Function to update pagination links and handle page navigation
+        function updatePagination(currentPage, totalPages, selectedValue) {
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = ''; // Clear existing pagination links
 
-</script>
-<script>
- function updateUIWithSortedProducts(products) {
-    const productsContainer = document.querySelector('.products .row');
-    productsContainer.innerHTML = '';
-    
-    products.forEach(product => {
-        if (product.is_listed === true && product.prdctQuantity > 0) {
-            let productHTML = `
-                <div class="col-6 col-md-4 col-lg-4">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="productDetails?productId=${product._id}">
-                                <img src="/processed_images/${product.prdctImage[0]}" alt="Product image" class="product-image">
-                            </a>`;
-            
-            if (product.offer && product.offer.status === true) {
-                productHTML += `<span class="product-label label-sale">Sale</span>`;
+            for (let i = 1; i <= totalPages; i++) {
+                let pageHTML = `<a href="#" class="pagination-link" data-page="${i}" data-sortby="${selectedValue}">${i}</a>`;
+                paginationContainer.insertAdjacentHTML('beforeend', pageHTML);
             }
-            
-            productHTML += `
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('${product._id}')"><span>Add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart" onclick="addToCart('${product._id}')"><span>Add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-                        <div class="product-body">
-                            <h3 class="product-title"><a href="productDetails?productId=${product._id}">${product.prdctName}</a></h3><!-- End .product-title -->
-                            <div class="product-price">`;
-            
-            if (product.offer && product.offer.status === true) {
-                productHTML += `
-                                <h5 class="new-price">₹${product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice) / 100}</h5>
-                                <p class="old-price"><s>₹${product.prdctPrice}</s></p>`;
-            } else {
-                productHTML += `<p>₹${product.prdctPrice}</p>`;
-            }
-            
-            productHTML += `
-                            </div><!-- End .product-price -->
-                            <div class="ratings-container">
-                                <div class="ratings">
-                                    <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                </div><!-- End .ratings -->
-                                <span class="ratings-text">(2 Reviews)</span>
-                            </div><!-- End .rating-container -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-lg-4 -->
-            `;
-            
-            productsContainer.insertAdjacentHTML('beforeend', productHTML);
+
+            // Add event listeners for pagination links
+            const paginationLinks = document.querySelectorAll('.pagination-link');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    const sortby = this.getAttribute('data-sortby');
+                    fetchProducts(sortby, page); // Fetch products based on page number and sorting option
+                });
+            });
         }
     });
-}
 
+    function updateUIWithSortedProducts(products) {
+        const productsContainer = document.querySelector('.products .row');
+        productsContainer.innerHTML = '';
 
+        products.forEach(product => {
+            if (product.is_listed === true && product.prdctQuantity > 0) {
+                let productHTML = `
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <a href="productDetails?productId=${product._id}">
+                                    <img src="/processed_images/${product.prdctImage[0]}" alt="Product image" class="product-image">
+                                </a>`;
+                
+                if (product.offer && product.offer.status === true) {
+                    productHTML += `<span class="product-label label-sale">Sale</span>`;
+                }
+
+                productHTML += `
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('${product._id}')"><span>Add to wishlist</span></a>
+                                </div>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${product._id}')"><span>Add to cart</span></a>
+                                </div>
+                            </figure>
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="productDetails?productId=${product._id}">${product.prdctName}</a></h3>
+                                <div class="product-price">`;
+
+                if (product.offer && product.offer.status === true) {
+                    productHTML += `
+                                    <h5 class="new-price">₹${product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice) / 100}</h5>
+                                    <p class="old-price"><s>₹${product.prdctPrice}</s></p>`;
+                } else {
+                    productHTML += `<p>₹${product.prdctPrice}</p>`;
+                }
+
+                productHTML += `
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                    </div>
+                                    <span class="ratings-text">(2 Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                productsContainer.insertAdjacentHTML('beforeend', productHTML);
+            }
+        });
+    }
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function handleFilterChange() {
@@ -682,6 +702,100 @@
         });
     }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.getElementById('searchForm');
+
+        // Handle the search form submission
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent the default form submission behavior
+            const searchTerm = document.querySelector('#q').value;  // Get the search term
+
+            fetch('/searchProducts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ searchTerm: searchTerm })  // Send search term in request body
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const products = data.data;
+                    updateUIWithSearchedProducts(products);  // Call function to update the product list
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+
+    // Function to update the UI with the search results
+    function updateUIWithSearchedProducts(products) {
+        const productsContainer = document.querySelector('.products .row');
+        productsContainer.innerHTML = '';  // Clear previous products
+
+        products.forEach(product => {
+            if (product.is_listed === true && product.prdctQuantity > 0) {
+                let productHTML = `
+                    <div class="col-6 col-md-4 col-lg-4">
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <a href="productDetails?productId=${product._id}">
+                                    <img src="/processed_images/${product.prdctImage[0]}" alt="Product image" class="product-image">
+                                </a>`;
+
+                if (product.offer && product.offer.status === true) {
+                    productHTML += `<span class="product-label label-sale">Sale</span>`;
+                }
+
+                productHTML += `
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable" onclick="addToWishlist('${product._id}')"><span>Add to wishlist</span></a>
+                                </div>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart" onclick="addToCart('${product._id}')"><span>Add to cart</span></a>
+                                </div>
+                            </figure>
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="productDetails?productId=${product._id}">${product.prdctName}</a></h3>
+                                <div class="product-price">`;
+
+                if (product.offer && product.offer.status === true) {
+                    productHTML += `
+                                    <h5 class="new-price">₹${product.prdctPrice - (product.offer.offerPercentage * product.prdctPrice) / 100}</h5>
+                                    <p class="old-price"><s>₹${product.prdctPrice}</s></p>`;
+                } else {
+                    productHTML += `<p>₹${product.prdctPrice}</p>`;
+                }
+
+                productHTML += `
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                    </div>
+                                    <span class="ratings-text">(2 Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+
+                productsContainer.insertAdjacentHTML('beforeend', productHTML);
+            }
+        });
+    }
+</script>
+
 
 
 

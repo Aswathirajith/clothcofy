@@ -53,7 +53,7 @@ const sendOtpMail = async (email) =>{
         const mailOptions = {
             from: "aswathirajith02@gmail.com",
             to: email,
-            subject: "Elaine Ecom signup verification OTP",
+            subject: "clothyfy Ecom signup verification OTP",
             text: `Hi, 
 
             Please verify your Elaine Ecom account using OTP.
@@ -166,7 +166,7 @@ const resendOtpMail = async (email) =>{
         const mailOptions = {
             from: "aswathirajith02@gmail.com",
             to: email,
-            subject: "Elaine Ecom signup verification OTP",
+            subject: "clothyfy Ecom signup verification OTP",
             text: `Hi, 
 
             Please verify your Elaine Ecom account using OTP.

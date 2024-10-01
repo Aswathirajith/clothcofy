@@ -73,6 +73,7 @@ user_route.get('/products',authentication.isLogin,accessAuth.accessUser,productC
 user_route.get("/productDetails",authentication.isLogin,accessAuth.accessUser,productController.productDetailsLoad);
 user_route.post('/sortingProducts',productController.sortProducts);
 user_route.post('/filterProducts',productController.filterProducts);
+user_route.post('/searchProducts',productController.searchProducts);
 
 //cart route
 user_route.get('/cart',authentication.isLogin,accessAuth.accessUser,Cartcontroller.cartLoad);

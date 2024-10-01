@@ -32,48 +32,54 @@ const addCouponLoad = async(req,res)=>{
     }
 }
 
+function generateCouponCode(length = 8) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let couponCode = '';
+    for (let i = 0; i < length; i++) {
+        couponCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+     
+    return`Coupon#${couponCode}`;
+}
 
-// add coupon
-const addCoupons = async (req, res) =>{
 
+
+const addCoupons = async (req, res) => {
     try {
-        
         const name = req.body.couponName;
         const description = req.body.couponDescription;
-        const code = req.body.couponCode;
         const validity = new Date(req.body.couponValidity);
         const currentDate = new Date();
         const minimumAmount = req.body.minimumPurchaseAmount;
         const discount = req.body.couponDiscount;
 
-        if(!name || /^\s*$/.test(name)){
-            return res.render("admin/addCoupon", {message: "Enter a valid coupon name"});
+        if (!name || /^\s*$/.test(name)) {
+            return res.render("admin/addCoupon", { message: "Enter a valid coupon name" });
         }
 
-        if(!description || /^\s*$/.test(description)){
-            return res.render("admin/addCoupon", {message: "Enter a valid coupon description"});
+        if (!description || /^\s*$/.test(description)) {
+            return res.render("admin/addCoupon", { message: "Enter a valid coupon description" });
         }
 
-        if(!code || /^\s*$/.test(code)){
-            return res.render("admin/addCoupon", {message: "Enter a valid coupon code"});
+        if (!validity || validity < currentDate) {
+            return res.render("admin/addCoupon", { message: "Enter a valid date" });
         }
 
-        if(!validity || validity < currentDate){
-            return res.render("admin/addCoupon", {message: "Enter a valid date"});
+        if (!minimumAmount || minimumAmount <= 0) {
+            return res.render("admin/addCoupon", { message: "Minimum purchase amount should not be zero!" });
         }
 
-        if(!minimumAmount || minimumAmount <= 0){
-            return res.render("admin/addCoupon", {message: "Minimum purchase amount should not be zero!"});
+        if (!discount || discount <= 0 || discount >= 4000) {
+            return res.render("admin/addCoupon", { message: "You have reached minimum/maximum discount limit!" });
         }
+
         
-        if(!discount || discount <= 0 || discount >= 4000){
-            return res.render("admin/addCoupon", {message: "You have reached minimum/maximum discount limit!"});
-        }
+        const code = generateCouponCode();
 
         const newCoupon = new Coupon({
             name: name,
             description: description,
-            code: code,
+            code: code, 
             validity: validity,
             minimumAmount: minimumAmount,
             discount: discount
@@ -81,12 +87,11 @@ const addCoupons = async (req, res) =>{
 
         await newCoupon.save();
 
-        res.redirect("admin/coupons");
+        res.redirect("/admin/coupons");
 
     } catch (error) {
         res.render('admin/404error');
     }
-
 }
 
 

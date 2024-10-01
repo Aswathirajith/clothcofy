@@ -104,45 +104,63 @@ const productDetailsLoad = async (req, res) => {
 
 }
 
-
-// sorting products 
 const sortProducts = async (req, res) => {
-
     try {
-        
         const sortOption = req.body.sortby;
-        let sortedData;
-                
-        switch(sortOption){
-            
+        let productsData;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
+        const skip = (page - 1) * limit;
+
+        
+
+        // Determine sorting option
+        switch (sortOption) {
             case 'priceLowToHigh':
-                sortedData = await Product.find({}).sort({prdctPrice: 1});
+                productsData = await Product.find({}).sort({ prdctPrice: 1 }).populate('offer').skip(skip).limit(limit);
                 break;
             case 'priceHighToLow':
-                sortedData = await Product.find({}).sort({prdctPrice: -1});
+                productsData = await Product.find({}).sort({ prdctPrice: -1 }).populate('offer').skip(skip).limit(limit);
                 break;
-            case 'newArrivals': 
-                sortedData = await Product.find({}).sort({createdOn: -1});
+            case 'newArrivals':
+                productsData = await Product.find({}).sort({ createdOn: -1 }).populate('offer').skip(skip).limit(limit);
                 break;
             case 'nameAZ':
-                sortedData = await Product.find({}).sort({prdctName: 1});
+                productsData = await Product.find({}).sort({ prdctName: 1 }).populate('offer').skip(skip).limit(limit);
                 break;
             case 'nameZA':
-                sortedData = await Product.find({}).sort({prdctName: -1});
+                productsData = await Product.find({}).sort({ prdctName: -1 }).populate('offer').skip(skip).limit(limit);
                 break;
             default:
-                res.json({ success: false, message: 'Invalid sort option' });
-                return;
-           
+                return res.json({ success: false, message: 'Invalid sort option' });
         }
+
+        // Total count of products (without limit)
+        const totalCount = await Product.countDocuments({});
+
+        // Calculate total pages
+        const totalPages = Math.ceil(totalCount / limit);
+
+        // Determine if there are previous or next pages
+        const hasNextPage = page < totalPages;
         
-        res.json({success: true, data: sortedData});
+
+        res.json({
+            success: true,
+            data: productsData,
+            totalCount: totalCount,
+            currentPage: page,
+            totalPages: totalPages,
+            hasNextPage: hasNextPage,
+            
+        });
 
     } catch (error) {
-        res.render('user/404');
+        console.error(error);
+        res.json({ success: false, message: 'An error occurred while sorting products' });
     }
+};
 
-}
 
 
 
@@ -171,8 +189,46 @@ const filterProducts = async (req, res) => {
 
 
 
+//search 
 
+const searchProducts = async (req, res) => {
+    try {
+        const searchQuery = req.body.searchTerm || '';  // Search term from the client
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
+        const skip = (page - 1) * limit;
 
+        // Perform search by looking for products that match the search term in the product name or description
+        const productsData = await Product.find({
+            $or: [
+                { prdctName: { $regex: searchQuery, $options: 'i' } },  // case-insensitive search
+                { prdctDescription: { $regex: searchQuery, $options: 'i' } }
+            ]
+        })
+        .populate('offer')
+        .skip(skip)
+        .limit(limit);
+
+        const totalCount = await Product.countDocuments({
+            $or: [
+                { prdctName: { $regex: searchQuery, $options: 'i' } },
+                { prdctDescription: { $regex: searchQuery, $options: 'i' } }
+            ]
+        });
+
+        res.json({
+            success: true,
+            data: productsData,
+            totalCount: totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: 'An error occurred while searching products' });
+    }
+};
 
 
 
@@ -184,6 +240,7 @@ module.exports = {
     allProductsListLoad,
     productDetailsLoad,
     sortProducts,
-    filterProducts
+    filterProducts,
+    searchProducts
     
 }

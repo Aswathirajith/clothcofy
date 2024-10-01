@@ -117,7 +117,7 @@ const updateCartQuantity = async (req, res) => {
         const productId = req.params.productId;
         const { quantity } = req.body;
 
-        if (quantity >= 5) {
+        if (quantity > 5) {
             return res.json({ error: "You can buy at most 5 items." });
         }
 

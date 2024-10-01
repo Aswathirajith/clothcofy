@@ -1,60 +1,49 @@
 const Order = require('../../models/orderdbSchema');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
-// orders load
 const ordersLoad = async (req, res) => {
     try {
-
-        const page = parseInt(req.query.page) || 1; 
-        const pageSize = 4; 
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = 4;
         const skip = (page - 1) * pageSize;
 
         const totalOrders = await Order.countDocuments();
         const totalPages = Math.ceil(totalOrders / pageSize);
 
-        const sortedOrderData = await Order.find({})
-            .sort({ date: -1 })
-            .skip(skip)
-            .limit(pageSize);
-
-
-        res.render("admin/orders", { 
-            sortedOrderData, 
-            totalPages, 
-            currentPage: page 
-        });
-
-    } catch (error) {
-        res.render('admin/404error');
-    }
-}
-
-// order details load
-const orderDetails = async (req, res) => {
-
-    try {
-
-        const orderId = req.query.orderId;
-        const orderData = await Order.find({_id: orderId }).populate([
-            {path: 'userId'},
-            {path: 'products.productId', 
-                populate: {
-                    path: 'offer'
+        const sortedOrderData = await Order.aggregate([
+            {
+                $lookup: {
+                    from: 'users', 
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'user'
                 }
+            },
+            {
+                $unwind: '$user' 
+            },
+            {
+                $sort: { date: -1 }
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: pageSize
             }
         ]);
 
-        const formattedDate = moment(orderData[0].date).format('MM DD YYYY HH:mm:ss');
-        res.render("admin/orderDetails", {
-            orderData: orderData,
-            date: formattedDate
+        res.render("admin/orders", {
+            sortedOrderData,
+            totalPages,
+            currentPage: page
         });
 
     } catch (error) {
         res.render('admin/404error');
     }
-
-}
+};
 
 // changing order status - shipping
 const shippedStatusChange = async (req, res) => {
@@ -200,6 +189,38 @@ const approveReturnRequest = async (req, res) => {
         res.render('admin/404error');
     }
 };
+
+
+// order details load
+const orderDetails = async (req, res) => {
+
+    try {
+
+        const orderId = req.query.orderId;
+        const orderData = await Order.find({_id: orderId }).populate([
+            {path: 'userId'},
+            {path: 'products.productId', 
+                populate: {
+                    path: 'offer'
+                }
+            }
+        ]);
+
+        const formattedDate = moment(orderData[0].date).format('MM DD YYYY HH:mm:ss');
+        res.render("admin/orderDetails", {
+            orderData: orderData,
+            date: formattedDate
+        });
+
+    } catch (error) {
+
+        
+        res.render("admin/404error");
+    }
+
+}
+
+
 
 
 module.exports ={
